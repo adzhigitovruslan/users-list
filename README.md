@@ -1,4 +1,23 @@
-# test-project-5
+## Simon-the-game
+
+<img src="./screenshot.png">
+
+
+### Link to the project: https://adzhigitovruslan.github.io/users-list/
+
+## Description
+
+Test project for frontend developer position
+
+## Tech stack
+
+- Vue2
+- scss
+- vue-router
+- vuex
+- vue-carousel
+- vue-lazyload
+- vue-toastification
 
 ## Project setup
 ```
