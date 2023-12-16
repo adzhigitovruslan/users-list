@@ -1,4 +1,4 @@
-## Simon-the-game
+## Users list test project
 
 <img src="./screenshot.png">
 
