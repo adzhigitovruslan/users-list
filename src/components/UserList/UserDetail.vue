@@ -1,6 +1,6 @@
 <!-- eslint-disable max-len -->
 <template>
-  <div class="user-detail-wrapper">
+  <div class="user-detail-wrapper" v-if="!spinner">
     <h2 class="user-detail-wrapper__title">User info</h2>
     <UserDetailInfo :userInfo="getUserInfo" />
     <div class="user-detail-wrapper__tabs">
@@ -15,14 +15,16 @@
       <router-view></router-view>
     </transition>
   </div>
+  <BaseLoader v-else />
 </template>
 
 <script>
 import UserDetailInfo from '@/components/UserList/UserDetailInfo.vue';
+import BaseLoader from '@/components/ui/BaseLoader.vue';
 
 export default {
   name: 'UserDetail',
-  components: { UserDetailInfo },
+  components: { UserDetailInfo, BaseLoader },
   props: {
     id: {
       type: String,
@@ -33,6 +35,7 @@ export default {
     return {
       user: {},
       activeTab: this.$route.path.split('/').at(-1),
+      spinner: false,
     };
   },
   computed: {
@@ -45,12 +48,15 @@ export default {
   },
   methods: {
     async getUserDetail() {
+      this.spinner = true;
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/users/' + this.id);
         const data = await response.json();
 
         this.user = data;
+        this.spinner = false;
       } catch (error) {
+        this.spinner = false;
         console.log('Error:', error);
       }
     },

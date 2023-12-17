@@ -1,5 +1,5 @@
 <template>
-  <div class="table__users">
+  <div class="table__users" v-if="!spinner">
     <div class="table__header header">Users</div>
     <table class="table__list" cellspacing="0">
       <TheHeader />
@@ -14,31 +14,41 @@
       />
     </table>
   </div>
+  <BaseLoader v-else />
 </template>
 
 <script>
 import TheHeader from '@/components/layout/TheHeader.vue';
 import UserItem from '@/components/UserList/UserItem.vue';
+import BaseLoader from '@/components/ui/BaseLoader.vue';
 
 export default {
   name: 'UsersList',
-  components: { TheHeader, UserItem },
+  components: { TheHeader, UserItem, BaseLoader },
   computed: {
     usersList() {
       return this.$store.getters.getUsers;
     },
+  },
+  data() {
+    return {
+      spinner: false,
+    };
   },
   methods: {
     clickHandler(id) {
       this.$router.push({ name: 'UserAlbumPage', params: { id: String(id) } });
     },
     async getUsers() {
+      this.spinner = true;
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const data = await response.json();
 
         this.$store.dispatch('setUsersData', data);
+        this.spinner = false;
       } catch (error) {
+        this.spinner = false;
         console.log('Error: GetUsers() method in UsersList comp', error);
       }
     },

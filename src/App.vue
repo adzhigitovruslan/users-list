@@ -11,5 +11,7 @@
   min-height: 100%;
   background: darkslategrey;
   padding: 30px;
+  display: flex;
+  justify-content: center;
 }
 </style>
